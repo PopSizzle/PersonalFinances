@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Table = ({title, cols, data, edit}) => {
+const Table = ({ title, cols, data, edit }) => {
 
   let keys = Object.keys(data);
 
-  return(
+  return (
     <div>
       <table className='styled-table'>
         <thead>
@@ -18,25 +18,25 @@ const Table = ({title, cols, data, edit}) => {
               <td key={index}><h4>{col}</h4></td>
             ))}
           </tr>
-            {
+          {
             // If data is provided 
-              keys.length > 0 ? 
+            keys.length > 0 ?
               keys.map(
-                key => 
-                <tr key={key}> 
-                  {Object.keys(data[key]).map(
-                    prop => {
-                      if(prop !== 'id'){
-                        return  <td key={prop}>{data[key][prop]}</td>
-                      }
+                key =>
+                  <tr key={key}>
+                    {Object.keys(data[key]).map(
+                      prop => {
+                        if (prop !== 'id') {
+                          return <td key={prop}>{data[key][prop]}</td>
+                        }
                       })}
-                  {edit ? <td><button className='styled-button'>Edit</button><button className='styled-button'>Delete</button></td> : null}
-                </tr>)
-             : 
-            // else if no data provided
-            <tr>
-              {cols.forEach(el => <td></td>)}
-            </tr>}
+                    {edit ? <td><button className='styled-button'>Edit</button><button className='styled-button'>Delete</button></td> : null}
+                  </tr>)
+              :
+              // else if no data provided
+              <tr>
+                {cols.forEach(el => <td></td>)}
+              </tr>}
         </tbody>
       </table>
     </div>
