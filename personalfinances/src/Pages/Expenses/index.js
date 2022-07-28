@@ -8,33 +8,33 @@ const Expenses = () => {
   const [expenseData, setExpenseData] = useState(
     {
       1: {
-        id: [1,1],
+        id: [1],
         date: '7/28',
         description: 'Clothes from Ross',
         category: 'Clothing',
-        total: 32.69
+        cost: 32.69
       },
       2: {
-        id: [2,2],
+        id: [2],
         date: '7/28',
         description: 'Graphic novels from Green Apple',
         category: 'Entertainment',
-        total: 27.49
+        cost: 27.49
       }
     }
   )
 
   const [expenseTotals, setExpenseTotals] =useState(
     {
-      1: {
+      'clothing': {
         id: 1,
         category: 'Clothing',
-        amount: 32.69
+        total: 32.69
       },
-      2: {
+      'entertainment': {
         id: 2,
         category: 'Entertainment',
-        amount: 27.49
+        total: 27.49
       }
     }
   )
@@ -43,7 +43,7 @@ const Expenses = () => {
   let cols1 = ['Date', 'Description', 'Cateogry', 'Cost'];
 
   let title2 = 'Total Expenses';
-  let cols2 = ['Category', 'Amount'];
+  let cols2 = ['Category', 'Total'];
 
   let form1Inputs = ['date', 'description', 'category', 'cost']
 
@@ -67,6 +67,10 @@ const Expenses = () => {
     let expenses = expenseData;
     expenses[id] = currExpense;
     setExpenseData(expenses);
+
+    let totals = expenseTotals;
+    totals[currExpense.category].total = parseFloat(totals[currExpense.category].total) + parseFloat(currExpense.cost);
+    setExpenseTotals(totals);
     
   }
 
