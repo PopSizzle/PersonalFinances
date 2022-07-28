@@ -1,56 +1,88 @@
-import React from 'react';
+import { React, useEffect, useState } from 'react';
 import Table from '../../Components/Table';
 import Form from '../../Components/Form';
 
-let title1 = 'Expense Tracker';
-let cols1 = ['Date', 'Description', 'Cost'];
-let data1 = {
-  1: {
-    id: 1,
-    date: '7/28',
-    description: 'Clothes from Ross',
-    total: 32.69
-  },
-  2: {
-    id: 2,
-    date: '7/28',
-    description: 'Graphic novels from Green Apple',
-    total: 27.49
-  }
-}
-
-let title2 = 'Total Expenses';
-let cols2 = ['Category', 'Amount']
-let data2 = {
-  1: {
-    id: 1,
-    category: 'Clothing',
-    amount: 32.69
-  },
-  2: {
-    id: 2,
-    category: 'Entertainment',
-    amount: 27.49
-  }
-}
-
-let form1Inputs = ['date', 'description', 'category', 'cost']
-
-const handleForm1Submit = (e) => {
-  e.preventDefault();
-  console.log('form 1 submitted');
-}
-
-const handleForm1Change = (e) => {
-  console.log(e.target.value);
-}
-
 const Expenses = () => {
+
+  const [currExpense, setCurrExpense] = useState({});
+  const [expenseData, setExpenseData] = useState(
+    {
+      1: {
+        id: [1,1],
+        date: '7/28',
+        description: 'Clothes from Ross',
+        category: 'Clothing',
+        total: 32.69
+      },
+      2: {
+        id: [2,2],
+        date: '7/28',
+        description: 'Graphic novels from Green Apple',
+        category: 'Entertainment',
+        total: 27.49
+      }
+    }
+  )
+
+  const [expenseTotals, setExpenseTotals] =useState(
+    {
+      1: {
+        id: 1,
+        category: 'Clothing',
+        amount: 32.69
+      },
+      2: {
+        id: 2,
+        category: 'Entertainment',
+        amount: 27.49
+      }
+    }
+  )
+
+  let title1 = 'Expense Tracker';
+  let cols1 = ['Date', 'Description', 'Cateogry', 'Cost'];
+
+  let title2 = 'Total Expenses';
+  let cols2 = ['Category', 'Amount'];
+
+  let form1Inputs = ['date', 'description', 'category', 'cost']
+
+  const handleExpenseSubmit = (e) => {
+    e.preventDefault();
+
+    let id;
+    let keys = Object.keys(expenseData);
+  
+    // Find the next available id
+    for(let i=0; i<=keys.length+1; i++){
+      console.log(parseInt(keys[i]));
+      if(parseInt(keys[i]) !== i){
+        id=i;
+        break;
+      }
+    }
+
+    setCurrExpense({id: id, ...currExpense})
+
+    let expenses = expenseData;
+    expenses[id] = currExpense;
+    setExpenseData(expenses);
+    
+  }
+
+  const handleExpenseChange = (e) => {
+    let key = e.target.id;
+
+    let expense = currExpense;
+    expense[key] = e.target.value
+    setCurrExpense(expense);
+  }
+
   return (
     <div>
-      <Form inputs={form1Inputs} title='Add Expense' handleChange={handleForm1Change} handleSubmit={handleForm1Submit} />
-      <Table title={title1} cols={cols1} data={data1} edit={true} />
-      <Table title={title2} cols={cols2} data={data2} edit={false} />
+      <Form inputs={form1Inputs} title='Add Expense' handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} />
+      <Table title={title1} cols={cols1} data={expenseData} edit={true} />
+      <Table title={title2} cols={cols2} data={expenseTotals} edit={false} />
     </div>
   )
 }

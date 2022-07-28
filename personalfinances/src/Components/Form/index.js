@@ -7,11 +7,11 @@ const Form = ({ inputs, title, handleChange, handleSubmit }) => {
       <h3>{title}</h3>
       {inputs.map((name, index) => {
 
-        name = name.charAt(0).toUpperCase() + name.slice(1)
+        let labelName = name.charAt(0).toUpperCase() + name.slice(1)
 
         return (
           <label key={index}>
-            {name}
+            {labelName}
             <input type='text' id={name} onChange={e => handleChange(e, name)} />
           </label>
         )
