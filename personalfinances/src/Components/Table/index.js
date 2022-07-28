@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Table = ({title, cols, data}) => {
+const Table = ({title, cols, data, edit}) => {
 
   let keys = Object.keys(data);
 
   return(
     <div>
-      <table>
+      <table className='styled-table'>
         <thead>
           <tr>
             <th>{title}</th>
@@ -15,7 +15,7 @@ const Table = ({title, cols, data}) => {
         <tbody>
           <tr>
             {cols.map((col, index) => (
-              <td key={index}>{col}</td>
+              <td key={index}><h4>{col}</h4></td>
             ))}
           </tr>
             {
@@ -30,6 +30,7 @@ const Table = ({title, cols, data}) => {
                         return  <td key={prop}>{data[key][prop]}</td>
                       }
                       })}
+                  {edit ? <td><button className='styled-button'>Edit</button><button className='styled-button'>Delete</button></td> : null}
                 </tr>)
              : 
             // else if no data provided
