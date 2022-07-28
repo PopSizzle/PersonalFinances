@@ -39,6 +39,10 @@ const Expenses = () => {
     }
   )
 
+  useEffect(() =>{
+
+  },[]);
+
   let title1 = 'Expense Tracker';
   let cols1 = ['Date', 'Description', 'Category', 'Cost'];
 
