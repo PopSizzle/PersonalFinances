@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Table = ({ title, cols, data, edit }) => {
+const Table = ({ title, cols, data, edit, deleteFunction}) => {
 
   let keys = Object.keys(data);
 
@@ -30,7 +30,7 @@ const Table = ({ title, cols, data, edit }) => {
                           return <td key={prop}>{data[key][prop]}</td>
                         }
                       })}
-                    {edit ? <td><button className='styled-button'>Edit</button><button className='styled-button'>Delete</button></td> : null}
+                    {edit ? <td><button className='styled-button'>Edit</button><button className='styled-button' onClick={e => deleteFunction(e)} id={key}>Delete</button></td> : null}
                   </tr>)
               :
               // else if no data provided

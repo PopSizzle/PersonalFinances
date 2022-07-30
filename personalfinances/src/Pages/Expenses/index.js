@@ -11,14 +11,14 @@ const Expenses = () => {
         id: [1],
         date: '7/28',
         description: 'Clothes from Ross',
-        category: 'Clothing',
+        category: 'clothing',
         cost: 32.69
       },
       2: {
         id: [2],
         date: '7/28',
         description: 'Graphic novels from Green Apple',
-        category: 'Entertainment',
+        category: 'entertainment',
         cost: 27.49
       }
     }
@@ -28,19 +28,18 @@ const Expenses = () => {
     {
       'clothing': {
         id: 1,
-        category: 'Clothing',
+        category: 'clothing',
         total: 32.69
       },
       'entertainment': {
         id: 2,
-        category: 'Entertainment',
+        category: 'entertainment',
         total: 27.49
       }
     }
   )
 
   useEffect(() =>{
-
   },[]);
 
   let title1 = 'Expense Tracker';
@@ -94,7 +93,6 @@ const Expenses = () => {
 
     let expenses = expenseData;
     expenses[id] = currExpense;
-    expenses[id].category = cat[0].toUpperCase() + cat.slice(1);
     setExpenseData(expenses);
     
   }
@@ -107,10 +105,30 @@ const Expenses = () => {
     setCurrExpense(expense);
   }
 
+  const deleteExpense = (e) =>{
+    e.preventDefault();
+    
+    let id = e.target.id;
+    let itemCost = parseFloat(expenseData[id].cost);
+    let category = expenseData[id].category; 
+
+    console.log(id,itemCost,category);
+
+    let totals = expenseTotals;
+    console.log(totals[category]);
+    totals[category].total = parseFloat(totals[category].total) - itemCost;
+    setExpenseTotals(totals);
+
+    let expenses = expenseData;
+    delete expenses[id];
+    setExpenseData(expenses);
+
+  }
+
   return (
     <div>
       <Form inputs={form1Inputs} title='Add Expense' handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} />
-      <Table title={title1} cols={cols1} data={expenseData} edit={true} />
+      <Table title={title1} cols={cols1} data={expenseData} edit={true} deleteFunction={deleteExpense}/>
       <Table title={title2} cols={cols2} data={expenseTotals} edit={false} />
     </div>
   )
