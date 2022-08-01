@@ -5,42 +5,13 @@ import Form from '../../Components/Form';
 const Expenses = () => {
 
   const [currExpense, setCurrExpense] = useState({});
-  const [expenseData, setExpenseData] = useState(
-    {
-      1: {
-        id: [1],
-        date: '7/28',
-        description: 'Clothes from Ross',
-        category: 'clothing',
-        cost: 32.69
-      },
-      2: {
-        id: [2],
-        date: '7/28',
-        description: 'Graphic novels from Green Apple',
-        category: 'entertainment',
-        cost: 27.49
-      }
-    }
-  )
-
-  const [expenseTotals, setExpenseTotals] =useState(
-    {
-      'clothing': {
-        id: 1,
-        category: 'clothing',
-        total: 32.69
-      },
-      'entertainment': {
-        id: 2,
-        category: 'entertainment',
-        total: 27.49
-      }
-    }
-  )
+  const [expenseData, setExpenseData] = useState(JSON.parse(localStorage.getItem('expenses')));
+  const [expenseTotals, setExpenseTotals] = useState(JSON.parse(localStorage.getItem('totals')));
 
   useEffect(() =>{
-  },[]);
+    localStorage.setItem('expenses', JSON.stringify({...expenseData}));
+    localStorage.setItem('totals', JSON.stringify({...expenseTotals}));
+  },[expenseData, expenseTotals]);
 
   let title1 = 'Expense Tracker';
   let cols1 = ['Date', 'Description', 'Category', 'Cost'];
@@ -74,8 +45,6 @@ const Expenses = () => {
 
     setCurrExpense({id: id, ...expense});
 
-    console.log(currExpense);
-
     let totals = expenseTotals;
     let cat = currExpense.category;
     if(!totals[cat]){
@@ -88,10 +57,12 @@ const Expenses = () => {
 
     totals[currExpense.category].total = parseFloat(totals[currExpense.category].total) + parseFloat(currExpense.cost);
     setExpenseTotals(totals);
+    localStorage.setItem('totals', JSON.stringify({...expenseTotals}));
 
     let expenses = expenseData;
     expenses[id] = currExpense;
     setExpenseData(expenses);
+    localStorage.setItem('expenses', JSON.stringify({...expenseData}));
     
   }
 
