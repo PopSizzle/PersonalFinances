@@ -63,8 +63,6 @@ const Expenses = () => {
       }
     }
 
-    console.log(id)
-
     return id;
   }
 
@@ -112,14 +110,11 @@ const Expenses = () => {
     let itemCost = parseFloat(expenseData[id].cost);
     let category = expenseData[id].category; 
 
-    console.log(id,itemCost,category);
-
-    let totals = expenseTotals;
-    console.log(totals[category]);
+    let totals = {...expenseTotals};
     totals[category].total = parseFloat(totals[category].total) - itemCost;
     setExpenseTotals(totals);
 
-    let expenses = expenseData;
+    let expenses = {...expenseData};
     delete expenses[id];
     setExpenseData(expenses);
 
