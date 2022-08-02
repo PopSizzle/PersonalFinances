@@ -5,8 +5,8 @@ import Form from '../../Components/Form';
 const Expenses = () => {
 
   const [currExpense, setCurrExpense] = useState({});
-  const [expenseData, setExpenseData] = useState(JSON.parse(localStorage.getItem('expenses')));
-  const [expenseTotals, setExpenseTotals] = useState(JSON.parse(localStorage.getItem('totals')));
+  const [expenseData, setExpenseData] = useState(JSON.parse(localStorage.getItem('expenses')) ? JSON.parse(localStorage.getItem('expenses')) : {});
+  const [expenseTotals, setExpenseTotals] = useState(JSON.parse(localStorage.getItem('totals')) ? JSON.parse(localStorage.getItem('totals')) : {});
 
   useEffect(() =>{
     localStorage.setItem('expenses', JSON.stringify({...expenseData}));
@@ -83,6 +83,7 @@ const Expenses = () => {
 
     let totals = {...expenseTotals};
     totals[category].total = parseFloat(totals[category].total) - itemCost;
+    if(totals[category].total <= 0) delete totals[category];
     setExpenseTotals(totals);
 
     let expenses = {...expenseData};
