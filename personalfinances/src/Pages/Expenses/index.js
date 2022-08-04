@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import Table from '../../Components/Table';
 import Form from '../../Components/Form';
-import clearForm from '../../Hooks/ClearForm';
 
 const Expenses = () => {
 
@@ -112,9 +111,17 @@ const Expenses = () => {
 
   }
 
+  const clearExpenseForm = (e) =>{
+    e.preventDefault();
+  
+    for(let element of form1Inputs){
+      document.getElementById(element).value = '';
+    }
+  }
+
   return (
     <div>
-      <Form inputs={form1Inputs} title='Add Expense' handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} clear={clearForm}/>
+      <Form inputs={form1Inputs} title='Add Expense' handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} clear={clearExpenseForm}/>
       <Table title={title1} cols={cols1} data={expenseData} edit={true} deleteFunction={deleteExpense}/>
       <Table title={title2} cols={cols2} data={expenseTotals} edit={false} />
     </div>

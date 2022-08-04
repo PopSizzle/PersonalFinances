@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/PopSizzle/PersonalFinances/issues"
   },
-  "homepage": "https://github.com/PopSizzle/PersonalFinances#readme"
+  "homepage": "https://github.com/PopSizzle/PersonalFinances#readme",
+  "dependencies": {
+    "react-router-dom": "^6.3.0"
+  }
 }

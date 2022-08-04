@@ -17,7 +17,7 @@ const Form = ({ inputs, title, handleChange, handleSubmit, clear }) => {
         )
       })}
       <input className='styled-button' type='submit' value='Submit' />
-      <button className='styled-button' onClick={e => clear(e,inputs)} datatitle={title}>Clear Form</button>
+      <button className='styled-button' onClick={e => clear(e)} datatitle={title}>Clear Form</button>
     </form>
 
   )
