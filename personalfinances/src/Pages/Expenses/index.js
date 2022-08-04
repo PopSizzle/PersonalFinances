@@ -40,6 +40,24 @@ const Expenses = () => {
   const handleExpenseSubmit = (e) => {
     e.preventDefault();
 
+    if(!currExpense.date){
+      alert('Please enter a date');
+      console.log(currExpense.date, currExpense.date.typeof);
+      return;
+    }
+    if(!currExpense.description){
+      alert('Please enter a description');
+      return;
+    }
+    if(!currExpense.category){
+      alert('Please enter a category')
+      return;
+    }
+    if(!currExpense.cost || isNaN(currExpense.cost)){
+      alert('Please enter a number for the cost');
+      return;
+    }
+
     let id = getNextId(expenseData);
     let expense = currExpense
 
@@ -66,7 +84,16 @@ const Expenses = () => {
     
   }
 
+  const clearExpenseForm = (e) =>{
+    e.preventDefault();
+
+    for(let element of form1Inputs){
+      document.getElementById(element).value = '';
+    }
+  }
+
   const handleExpenseChange = (e) => {
+
     let key = e.target.id;
 
     let expense = currExpense;
@@ -94,7 +121,7 @@ const Expenses = () => {
 
   return (
     <div>
-      <Form inputs={form1Inputs} title='Add Expense' handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} />
+      <Form inputs={form1Inputs} title='Add Expense' handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} clear={clearExpenseForm}/>
       <Table title={title1} cols={cols1} data={expenseData} edit={true} deleteFunction={deleteExpense}/>
       <Table title={title2} cols={cols2} data={expenseTotals} edit={false} />
     </div>
