@@ -19,7 +19,8 @@ const Expenses = () => {
   let title2 = 'Total Expenses';
   let cols2 = ['Category', 'Total'];
 
-  let form1Inputs = ['date', 'description', 'category', 'cost']
+  let form1Inputs = ['date', 'description', 'category', 'cost'];
+  let form1Title = 'Add Expense';
 
   const getNextId = (object) =>{
     
@@ -121,7 +122,7 @@ const Expenses = () => {
 
   return (
     <div>
-      <Form inputs={form1Inputs} title='Add Expense' handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} clear={clearExpenseForm}/>
+      <Form inputs={form1Inputs} title={form1Title} handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} clear={clearExpenseForm}/>
       <Table title={title1} cols={cols1} data={expenseData} edit={true} deleteFunction={deleteExpense}/>
       <Table title={title2} cols={cols2} data={expenseTotals} edit={false} />
     </div>
