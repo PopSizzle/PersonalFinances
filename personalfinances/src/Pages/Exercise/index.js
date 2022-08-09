@@ -5,7 +5,7 @@ import Form from '../../Components/Form';
 const Exercise = () => {
 
   const [currExercise, setCurrExercise] = useState({});
-  const [exerciseData, setExerciseData] = useState([]);
+  const [exerciseData, setExerciseData] = useState(JSON.parse(localStorage.getItem('exercises')) ? JSON.parse(localStorage.getItem('exercises')) : {});
 
   useEffect(() =>{
     localStorage.setItem('exercises', JSON.stringify({...exerciseData}));
@@ -64,10 +64,19 @@ const Exercise = () => {
     }
   }
 
+  const deleteExercise = (e) =>{
+    e.preventDefault();
+    let id = e.target.id;
+
+    let exercises = {...exerciseData};
+    delete exercises[id];
+    setExerciseData(exercises);
+  }
+
   return (
     <div>
       <Form inputs={form1Inputs} title={form1Title} handleChange={handleExerciseChange} handleSubmit={handleExerciseSubmit} clear={clearExerciseForm} />
-      <Table title={title1} cols={cols1} data={data1} edit={false} />
+      <Table title={title1} cols={cols1} data={exerciseData} edit={true} deleteFunction={deleteExercise}/>
     </div>
   )
 }
