@@ -30,7 +30,7 @@ const Table = ({ title, cols, data, edit, deleteFunction}) => {
                           return <td key={prop}>{data[key][prop]}</td>
                         }
                       })}
-                    {edit ? <td><button className='styled-button'>Edit</button><button className='styled-button' onClick={e => deleteFunction(e)} id={key}>Delete</button></td> : null}
+                    {edit ? <td><button className='styled-button'>Edit</button><button className='styled-button' onClick={deleteFunction} id={key}>Delete</button></td> : null}
                   </tr>)
               :
               // else if no data provided
