@@ -6,11 +6,11 @@ const Expenses = () => {
 
   const [currExpense, setCurrExpense] = useState({});
   const [expenseData, setExpenseData] = useState(JSON.parse(localStorage.getItem('expenses')) ? JSON.parse(localStorage.getItem('expenses')) : {});
-  const [expenseTotals, setExpenseTotals] = useState(JSON.parse(localStorage.getItem('totals')) ? JSON.parse(localStorage.getItem('totals')) : {});
+  const [expenseTotals, setExpenseTotals] = useState(JSON.parse(localStorage.getItem('expenseTotals')) ? JSON.parse(localStorage.getItem('expenseTotals')) : {});
 
   useEffect(() =>{
     localStorage.setItem('expenses', JSON.stringify({...expenseData}));
-    localStorage.setItem('totals', JSON.stringify({...expenseTotals}));
+    localStorage.setItem('expenseTotals', JSON.stringify({...expenseTotals}));
   },[expenseData, expenseTotals]);
 
   let title1 = 'Expense Tracker';
@@ -41,22 +41,8 @@ const Expenses = () => {
   const handleExpenseSubmit = (e) => {
     e.preventDefault();
 
-    if(!currExpense.date){
-      alert('Please enter a date');
-      console.log(currExpense.date, currExpense.date.typeof);
-      return;
-    }
-    if(!currExpense.description){
-      alert('Please enter a description');
-      return;
-    }
-    if(!currExpense.category){
-      alert('Please enter a category')
-      return;
-    }
-    if(!currExpense.cost || isNaN(currExpense.cost)){
-      alert('Please enter a number for the cost');
-      return;
+    for(let element of form1Inputs){
+      if(!currExpense[element]) return alert(`Please enter an input for ${element}`)
     }
 
     let id = getNextId(expenseData);
@@ -74,12 +60,12 @@ const Expenses = () => {
       }
     }
 
-    totals[currExpense.category].total = parseFloat(totals[currExpense.category].total) + parseFloat(currExpense.cost);
+    totals[cat].total = parseFloat(totals[expense.category].total) + parseFloat(expense.cost);
     setExpenseTotals(totals);
-    localStorage.setItem('totals', JSON.stringify({...expenseTotals}));
+    localStorage.setItem('ExpenseTotals', JSON.stringify({...expenseTotals}));
 
     let expenses = expenseData;
-    expenses[id] = currExpense;
+    expenses[id] = expense;
     setExpenseData(expenses);
     localStorage.setItem('expenses', JSON.stringify({...expenseData}));
     
@@ -103,7 +89,7 @@ const Expenses = () => {
 
     let totals = {...expenseTotals};
     totals[category].total = parseFloat(totals[category].total) - itemCost;
-    if(totals[category].total <= 0) delete totals[category];
+    if(!totals[category].total) delete totals[category];
     setExpenseTotals(totals);
 
     let expenses = {...expenseData};
