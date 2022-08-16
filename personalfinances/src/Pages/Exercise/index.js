@@ -10,7 +10,7 @@ const Exercise = () => {
 
   useEffect(() =>{
     localStorage.setItem('exercises', JSON.stringify({...exerciseData}));
-    localStorage.setItem('expenseTotals', JSON.stringify({...exerciseTotals}));
+    localStorage.setItem('exerciseTotals', JSON.stringify({...exerciseTotals}));
   }, [exerciseData, exerciseTotals]);
 
   let title1 = 'Exercise Log';
@@ -21,6 +21,8 @@ const Exercise = () => {
 
   let form1Inputs = ['date','type','description', 'time', 'distance'];
   let form1Title = 'Add Exercise';
+
+  // localStorage.clear();
 
   const getNextId = (object) =>{
     
@@ -72,7 +74,7 @@ const Exercise = () => {
     totals[type].totalTime = parseFloat(totals[type].totalTime) + parseFloat(exercise.time);
     if(exercise.distance > 0){
       if(totals[type].distance === '') totals[type].distance = 0;
-      totals[type].distance += parseFloat(exercise.distance)
+      totals[type].distance = parseFloat(totals[type].distance) + parseFloat(exercise.distance)
     }
 
     setExerciseTotals(totals);
@@ -104,10 +106,12 @@ const Exercise = () => {
     totals[type].time = parseFloat(totals[type].time) - time;
     if(!totals[type].time) delete totals[type];
     setExerciseTotals(totals);
+    localStorage.setItem('exerciseTotals', JSON.stringify({...exerciseTotals}));
 
     let exercises = {...exerciseData};
     delete exercises[id];
     setExerciseData(exercises);
+    localStorage.setItem('exercises', JSON.stringify({...exerciseData}));
   }
 
   return (
