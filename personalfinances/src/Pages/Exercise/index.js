@@ -14,10 +14,10 @@ const Exercise = () => {
   }, [exerciseData, exerciseTotals]);
 
   let title1 = 'Exercise Log';
-  let cols1 = ['Date', 'Type', 'Description', 'Time', 'Distance'];
+  let cols1 = ['Date', 'Type', 'Description', 'Time (minutes)', 'Distance (miles)'];
 
   let title2 = 'Exercise Types';
-  let cols2 = ['Type', 'Total time', 'Total Distance (if applicable)']
+  let cols2 = ['Type', 'Total Minutes', 'Total Miles (if applicable)']
 
   let form1Inputs = ['date','type','description', 'time', 'distance'];
   let form1Title = 'Add Exercise';
@@ -45,6 +45,8 @@ const Exercise = () => {
     let exercise = currExercise;
     exercise[key] = e.target.value.toLowerCase();
     setCurrExercise(exercise);
+
+    console.log(currExercise);
   }
 
   const handleExerciseSubmit = (e) =>{
@@ -73,7 +75,7 @@ const Exercise = () => {
 
     totals[type].totalTime = parseFloat(totals[type].totalTime) + parseFloat(exercise.time);
     if(exercise.distance > 0){
-      if(totals[type].distance === '') totals[type].distance = 0;
+      if(totals[type].totalDistance === '') totals[type].distance = 0;
       totals[type].distance = parseFloat(totals[type].distance) + parseFloat(exercise.distance)
     }
 
