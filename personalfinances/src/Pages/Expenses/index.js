@@ -1,12 +1,16 @@
 import { React, useEffect, useState } from 'react';
 import Table from '../../Components/Table';
 import Form from '../../Components/Form';
+import Modal from '../../Components/Modal';
 
 const Expenses = () => {
+
+  // localStorage.clear();
 
   const [currExpense, setCurrExpense] = useState({});
   const [expenseData, setExpenseData] = useState(JSON.parse(localStorage.getItem('expenses')) ? JSON.parse(localStorage.getItem('expenses')) : {});
   const [expenseTotals, setExpenseTotals] = useState(JSON.parse(localStorage.getItem('expenseTotals')) ? JSON.parse(localStorage.getItem('expenseTotals')) : {});
+  const [editMode, setEditMode] = useState(false)
 
   useEffect(() =>{
     localStorage.setItem('expenses', JSON.stringify({...expenseData}));
@@ -21,6 +25,13 @@ const Expenses = () => {
 
   let form1Inputs = ['date', 'description', 'category', 'cost'];
   let form1Title = 'Add Expense';
+
+  let sample = {
+    date: '9/21',
+    description: 'Innistrade Booster box',
+    category: 'essentials',
+    cost: 120
+  }
 
   const getNextId = (object) =>{
     
@@ -69,6 +80,7 @@ const Expenses = () => {
     setExpenseData(expenses);
     localStorage.setItem('expenses', JSON.stringify({...expenseData}));
     
+    clearExpenseForm(e);
   }
 
   const handleExpenseChange = (e) => {
@@ -106,10 +118,29 @@ const Expenses = () => {
     }
   }
 
+  const handleEditChange = (e,curr) => {
+    setCurrExpense(curr);
+
+    handleExpenseChange(e);
+  }
+
+  const closeEditModal = () =>{
+    setEditMode(false);
+  }
+
+  const editRow = (e) =>{
+    let id=e.target.getAttribute('data-id');
+    
+    setCurrExpense(expenseData[id]);
+
+    setEditMode(true);
+  }
+
   return (
     <div>
       <Form inputs={form1Inputs} title={form1Title} handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} clear={clearExpenseForm}/>
-      <Table title={title1} cols={cols1} data={expenseData} edit={true} deleteFunction={deleteExpense}/>
+      <Modal categories={cols1} handleChange={handleEditChange} expense={currExpense} show={editMode} close={closeEditModal}/>
+      <Table title={title1} cols={cols1} data={expenseData} edit={true} deleteFunction={deleteExpense} editFunction={editRow}/>
       <Table title={title2} cols={cols2} data={expenseTotals} edit={false} />
     </div>
   )

@@ -12,7 +12,7 @@ const Form = ({ inputs, title, handleChange, handleSubmit, clear }) => {
         return (
           <label key={index}>
             {labelName}
-            <input type='text' id={name} onChange={e => handleChange(e, name)} />
+            <input type='text' id={name} onChange={e => handleChange(e)} />
           </label>
         )
       })}
