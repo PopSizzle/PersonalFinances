@@ -5,8 +5,7 @@ import Modal from '../../Components/Modal';
 
 const Expenses = () => {
 
-  // localStorage.clear();
-
+  const [currId, setCurrId] = useState();
   const [currExpense, setCurrExpense] = useState({});
   const [expenseData, setExpenseData] = useState(JSON.parse(localStorage.getItem('expenses')) ? JSON.parse(localStorage.getItem('expenses')) : {});
   const [expenseTotals, setExpenseTotals] = useState(JSON.parse(localStorage.getItem('expenseTotals')) ? JSON.parse(localStorage.getItem('expenseTotals')) : {});
@@ -85,7 +84,9 @@ const Expenses = () => {
 
   const handleExpenseChange = (e) => {
 
-    let key = e.target.id;
+    console.log(currExpense);
+
+    let key = e.target.id.toLowerCase();
 
     let expense = currExpense;
     expense[key] = e.target.value.toLowerCase();
@@ -116,10 +117,11 @@ const Expenses = () => {
     for(let element of form1Inputs){
       document.getElementById(element).value = '';
     }
+
+    setCurrExpense({});
   }
 
   const handleEditChange = (e,curr) => {
-    setCurrExpense(curr);
 
     handleExpenseChange(e);
   }
@@ -130,16 +132,40 @@ const Expenses = () => {
 
   const editRow = (e) =>{
     let id=e.target.getAttribute('data-id');
+
+    setCurrId(id);
     
     setCurrExpense(expenseData[id]);
 
     setEditMode(true);
   }
 
+  const handleEditSubmit = (e,id) =>{
+    console.log(id)
+
+    let expenses = expenseData;
+
+    expenses[id] = currExpense;
+
+    console.log(expenses);
+
+    setExpenseData(expenses);
+
+    setCurrExpense({})
+    closeEditModal();
+  }
+
+  const clearData = (e) =>{
+    localStorage.clear();
+    setExpenseData({});
+    setExpenseTotals({});
+  }
+
   return (
     <div>
       <Form inputs={form1Inputs} title={form1Title} handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} clear={clearExpenseForm}/>
-      <Modal categories={cols1} handleChange={handleEditChange} expense={currExpense} show={editMode} close={closeEditModal}/>
+      <button onClick={e => clearData(e)}>Clear Storage</button>
+      <Modal id={currId} categories={cols1} handleChange={handleEditChange} expense={currExpense} show={editMode} close={closeEditModal} handleSubmit={handleEditSubmit}/>
       <Table title={title1} cols={cols1} data={expenseData} edit={true} deleteFunction={deleteExpense} editFunction={editRow}/>
       <Table title={title2} cols={cols2} data={expenseTotals} edit={false} />
     </div>

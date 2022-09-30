@@ -1,7 +1,7 @@
 import React from 'react';
 import './modal.css';
 
-const Modal = ({ expense, categories, handleChange, handleSubmit, show, close }) => {
+const Modal = ({ id, expense, categories, handleChange, handleSubmit, show, close }) => {
 
   if (!show) return null;
 
@@ -27,7 +27,7 @@ const Modal = ({ expense, categories, handleChange, handleSubmit, show, close })
           </form>
         </div>
         <div className='modal-footer'>
-          <button>Save Changes</button><button onClick={close}>Close</button>
+          <button onClick={e => handleSubmit(e,id)}>Save Changes</button><button onClick={close}>Close</button>
         </div>
       </div>
     </div>
