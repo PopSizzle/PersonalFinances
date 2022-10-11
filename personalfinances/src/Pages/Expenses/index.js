@@ -74,7 +74,7 @@ const Expenses = () => {
     if(operator === 'add') totals[cat].total = parseFloat(totals[expense.category].total) + parseFloat(expense.cost);
     else if(operator === 'subtract') totals[cat].total = parseFloat(totals[expense.category].total) - parseFloat(expense.cost);
     setExpenseTotals(totals);
-    localStorage.setItem('ExpenseTotals', JSON.stringify({...expenseTotals}));
+    localStorage.setItem('expenseTotals', JSON.stringify({...expenseTotals}));
   }
 
   const updateExpensesStorage = (id,expense) =>{
