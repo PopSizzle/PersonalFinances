@@ -62,7 +62,7 @@ const Expenses = () => {
 
   const updateTotalsStorage = (expense, operator) => {
     let totals = expenseTotals;
-    let cat = currExpense.category;
+    let cat = expense.category;
     if(!totals[cat]){
       totals[cat] = {
         id: getNextId(totals),
@@ -72,7 +72,10 @@ const Expenses = () => {
     }
 
     if(operator === 'add') totals[cat].total = parseFloat(totals[expense.category].total) + parseFloat(expense.cost);
-    else if(operator === 'subtract') totals[cat].total = parseFloat(totals[expense.category].total) - parseFloat(expense.cost);
+    else if(operator === 'subtract'){
+      totals[cat].total = parseFloat(totals[expense.category].total) - parseFloat(expense.cost);
+      if(totals[cat].total <= 0) delete totals[cat];
+    }
     setExpenseTotals(totals);
     localStorage.setItem('expenseTotals', JSON.stringify({...expenseTotals}));
   }

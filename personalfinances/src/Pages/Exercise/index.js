@@ -116,9 +116,16 @@ const Exercise = () => {
     localStorage.setItem('exercises', JSON.stringify({...exerciseData}));
   }
 
+  const clearData = (e) =>{
+    localStorage.clear();
+    setExerciseData({});
+    setExerciseTotals({});
+  }
+
   return (
     <div>
       <Form inputs={form1Inputs} title={form1Title} handleChange={e=>handleExerciseChange(e)} handleSubmit={e=>handleExerciseSubmit(e)} clear={clearExerciseForm} />
+      <button onClick={e => clearData(e)}>Clear All Data</button>
       <Table title={title1} cols={cols1} data={exerciseData} edit={true} deleteFunction={e=> deleteExercise(e)}/>
       <Table title={title2} cols={cols2} data={exerciseTotals} edit={false} />
     </div>
