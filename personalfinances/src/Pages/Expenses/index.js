@@ -25,13 +25,6 @@ const Expenses = () => {
   let form1Inputs = ['date', 'description', 'category', 'cost'];
   let form1Title = 'Add Expense';
 
-  let sample = {
-    date: '9/21',
-    description: 'Innistrade Booster box',
-    category: 'essentials',
-    cost: 120
-  }
-
   const getNextId = (object) =>{
     
     let id;
@@ -60,6 +53,14 @@ const Expenses = () => {
 
     setCurrExpense({id: id, ...expense});
 
+    updateTotalsStorage(expense, 'add');
+
+    updateExpensesStorage(id,expense);
+    
+    clearExpenseForm(e);
+  }
+
+  const updateTotalsStorage = (expense, operator) => {
     let totals = expenseTotals;
     let cat = currExpense.category;
     if(!totals[cat]){
@@ -70,21 +71,20 @@ const Expenses = () => {
       }
     }
 
-    totals[cat].total = parseFloat(totals[expense.category].total) + parseFloat(expense.cost);
+    if(operator === 'add') totals[cat].total = parseFloat(totals[expense.category].total) + parseFloat(expense.cost);
+    else if(operator === 'subtract') totals[cat].total = parseFloat(totals[expense.category].total) - parseFloat(expense.cost);
     setExpenseTotals(totals);
     localStorage.setItem('ExpenseTotals', JSON.stringify({...expenseTotals}));
+  }
 
+  const updateExpensesStorage = (id,expense) =>{
     let expenses = expenseData;
     expenses[id] = expense;
     setExpenseData(expenses);
     localStorage.setItem('expenses', JSON.stringify({...expenseData}));
-    
-    clearExpenseForm(e);
   }
 
   const handleExpenseChange = (e) => {
-
-    console.log(currExpense);
 
     let key = e.target.id.toLowerCase();
 
@@ -140,16 +140,12 @@ const Expenses = () => {
     setEditMode(true);
   }
 
-  const handleEditSubmit = (e,id) =>{
+  const handleEditSubmit = (e,prevExpense,id) =>{
     console.log(id)
-
-    let expenses = expenseData;
-
-    expenses[id] = currExpense;
-
-    console.log(expenses);
-
-    setExpenseData(expenses);
+    
+    updateTotalsStorage(prevExpense, 'subtract');
+    updateExpensesStorage(id,currExpense);
+    updateTotalsStorage(currExpense, 'add');
 
     setCurrExpense({})
     closeEditModal();
@@ -164,7 +160,7 @@ const Expenses = () => {
   return (
     <div>
       <Form inputs={form1Inputs} title={form1Title} handleChange={handleExpenseChange} handleSubmit={handleExpenseSubmit} clear={clearExpenseForm}/>
-      <button onClick={e => clearData(e)}>Clear Storage</button>
+      <button onClick={e => clearData(e)}>Clear All Data</button>
       <Modal id={currId} categories={cols1} handleChange={handleEditChange} expense={currExpense} show={editMode} close={closeEditModal} handleSubmit={handleEditSubmit}/>
       <Table title={title1} cols={cols1} data={expenseData} edit={true} deleteFunction={deleteExpense} editFunction={editRow}/>
       <Table title={title2} cols={cols2} data={expenseTotals} edit={false} />

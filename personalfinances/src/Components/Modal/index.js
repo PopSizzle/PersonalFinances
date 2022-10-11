@@ -5,6 +5,8 @@ const Modal = ({ id, expense, categories, handleChange, handleSubmit, show, clos
 
   if (!show) return null;
 
+  const temp = {...expense};
+
   return (
     <div className='modal' id='editModal'>
       <div className='modal-content'>
@@ -27,7 +29,7 @@ const Modal = ({ id, expense, categories, handleChange, handleSubmit, show, clos
           </form>
         </div>
         <div className='modal-footer'>
-          <button onClick={e => handleSubmit(e,id)}>Save Changes</button><button onClick={close}>Close</button>
+          <button onClick={e => handleSubmit(e,temp,id)}>Save Changes</button><button onClick={close}>Close</button>
         </div>
       </div>
     </div>
