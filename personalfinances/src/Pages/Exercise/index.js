@@ -69,15 +69,14 @@ const Exercise = () => {
         id: getNextId(totals),
         type: type,
         totalTime: 0,
-        totalDistance: ''
+        totalDistance: 0
       }
     }
 
     totals[type].totalTime = parseFloat(totals[type].totalTime) + parseFloat(exercise.time);
-    if(exercise.distance > 0){
-      if(totals[type].totalDistance === '') totals[type].distance = 0;
-      totals[type].distance = parseFloat(totals[type].distance) + parseFloat(exercise.distance)
-    }
+    
+    totals[type].distance = parseFloat(totals[type].distance) + parseFloat(exercise.distance)
+    
 
     setExerciseTotals(totals);
     localStorage.setItem('exerciseTotals', JSON.stringify({...exerciseTotals}))

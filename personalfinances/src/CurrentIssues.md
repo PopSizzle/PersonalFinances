@@ -7,3 +7,4 @@
 4. Exercise Page-Add edit modal to Exercise page
 
 5. Expense Page- edit bug where submitting new expense edits previous expenses
+No longer a bug?
