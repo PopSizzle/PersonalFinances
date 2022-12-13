@@ -5,6 +5,7 @@ import Modal from '../../Components/Modal';
 
 const Expenses = () => {
 
+  // Local State
   const [currId, setCurrId] = useState();
   const [currExpense, setCurrExpense] = useState({});
   const [expenseData, setExpenseData] = useState(JSON.parse(localStorage.getItem('expenses')) ? JSON.parse(localStorage.getItem('expenses')) : {});
@@ -16,6 +17,7 @@ const Expenses = () => {
     localStorage.setItem('expenseTotals', JSON.stringify({...expenseTotals}));
   },[expenseData, expenseTotals]);
 
+  // Table titles and column titles
   let title1 = 'Expense Tracker';
   let cols1 = ['Date', 'Description', 'Category', 'Cost'];
 
@@ -25,12 +27,12 @@ const Expenses = () => {
   let form1Inputs = ['date', 'description', 'category', 'cost'];
   let form1Title = 'Add Expense';
 
+  // Function to find the next available id
   const getNextId = (object) =>{
     
     let id;
     let keys = Object.keys(object);
   
-    // Find the next available id
     for(let i=0; i<keys.length+1; i++){
       if(!keys[i] || parseInt(keys[i]) !== i+1){
       id=i+1;
@@ -41,6 +43,7 @@ const Expenses = () => {
     return id;
   }
 
+  // Handler for submitting new function form
   const handleExpenseSubmit = (e) => {
     e.preventDefault();
 
@@ -60,6 +63,7 @@ const Expenses = () => {
     clearExpenseForm(e);
   }
 
+  // Update function for totals and local storage
   const updateTotalsStorage = (expense, operator) => {
     let totals = expenseTotals;
     let cat = expense.category;
@@ -96,6 +100,7 @@ const Expenses = () => {
     setCurrExpense(expense);
   }
 
+  // Function to delete an expense and update related tables/columns
   const deleteExpense = (e) =>{
     e.preventDefault();
     
@@ -114,6 +119,7 @@ const Expenses = () => {
 
   }
 
+  // Function to reset expense form
   const clearExpenseForm = (e) =>{
     e.preventDefault();
   
@@ -124,6 +130,7 @@ const Expenses = () => {
     setCurrExpense({});
   }
 
+  // Functions related to editing an existing row
   const handleEditChange = (e,curr) => {
 
     handleExpenseChange(e);
@@ -143,6 +150,7 @@ const Expenses = () => {
     setEditMode(true);
   }
 
+  // Handler for submission of an edit, updates related rows
   const handleEditSubmit = (e,prevExpense,id) =>{
     console.log(id)
     
@@ -154,6 +162,7 @@ const Expenses = () => {
     closeEditModal();
   }
 
+  // Function to clear all stored local data and tables
   const clearData = (e) =>{
     localStorage.clear();
     setExpenseData({});
